@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Razorpay & Flutter Integration Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      line-height: 1.6;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #111;
+    }
+    h1 {
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    h2 {
+      font-size: 20px;
+      margin-top: 20px;
+    }
+    p {
+      margin: 10px 0;
+    }
+    code {
+      display: block;
+      padding: 10px;
+      background-color: #f4f4f4;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Razorpay & Flutter Integration Guide</h1>
+
+<p>This guide provides a comprehensive overview of integrating Razorpay with a Flutter app, covering various payment methods: Card, UPI, Wallet, and Net Banking.</p>
+
+<h2>1. Setup Razorpay in Flutter</h2>
+<p>To get started, install the Razorpay Flutter package in your Flutter project:</p>
+<code>flutter pub add razorpay_flutter</code>
+
+<p>After installation, import the package:</p>
+<code>import 'package:razorpay_flutter/razorpay_flutter.dart';</code>
+
+<p>Initialize Razorpay in your Flutter widget (e.g., in the <code>initState()</code> method):</p>
+<code>
+final _razorpay = Razorpay();<br>
+_razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);<br>
+_razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);<br>
+_razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+</code>
+
+<h2>2. Payment Types</h2>
+
+<h3>a) Card Payment</h3>
+<p>Card payments are the most common method. Razorpay supports all major debit and credit cards. Here's how to configure card payments:</p>
+<p>Set up payment options:</p>
+<code>
+var options = {<br>
+&nbsp; 'key': 'YOUR_API_KEY',<br>
+&nbsp; 'amount': 1000, // Amount in the smallest currency unit<br>
+&nbsp; 'currency': 'INR',<br>
+&nbsp; 'name': 'Your Company',<br>
+&nbsp; 'description': 'Test Payment',<br>
+&nbsp; 'prefill': {<br>
+&nbsp;&nbsp; 'contact': '9876543210',<br>
+&nbsp;&nbsp; 'email': 'test@example.com'<br>
+&nbsp; },<br>
+&nbsp; 'method': {'card': true}<br>
+};
+</code>
+
+<h3>b) UPI Payment</h3>
+<p>Unified Payments Interface (UPI) is widely used in India for instant transactions.</p>
+<p>Enable UPI in the payment options:</p>
+<code>
+options['method'] = {'upi': true};
+</code>
+
+<h3>c) Wallet Payment</h3>
+<p>Wallets like Paytm, Mobikwik, and Freecharge are available for Razorpay transactions.</p>
+<p>Enable wallet in the payment options:</p>
+<code>
+options['method'] = {'wallet': true};
+</code>
+
+<h3>d) Net Banking</h3>
+<p>Net banking payments allow users to pay directly from their bank accounts.</p>
+<p>Enable net banking in the payment options:</p>
+<code>
+options['method'] = {'netbanking': true};
+</code>
+
+<h2>3. Initiating Payment</h2>
+<p>Use the configured options to start a Razorpay payment session:</p>
+<code>_razorpay.open(options);</code>
+
+<h2>4. Handling Payment Responses</h2>
+
+<h3>a) Success Callback</h3>
+<p>Define a success callback function to handle successful payments:</p>
+<code>
+void _handlePaymentSuccess(PaymentSuccessResponse response) {<br>
+&nbsp; print("Payment successful: ${response.paymentId}");<br>
+}
+</code>
+
+<h3>b) Error Callback</h3>
+<p>Define an error callback function to handle failed payments:</p>
+<code>
+void _handlePaymentError(PaymentFailureResponse response) {<br>
+&nbsp; print("Payment failed: ${response.message}");<br>
+}
+</code>
+
+<h3>c) External Wallet Callback</h3>
+<p>If the user selects an external wallet, handle it with the following callback:</p>
+<code>
+void _handleExternalWallet(ExternalWalletResponse response) {<br>
+&nbsp; print("External wallet selected: ${response.walletName}");<br>
+}
+</code>
+
+<h2>5. Additional Tips</h2>
+<p>- Ensure you have a valid Razorpay API key from the Razorpay dashboard.<br>
+- Test your integration in Razorpay's test environment before going live.<br>
+- Use error handling to ensure a smooth user experience.</p>
+
+<h2>Conclusion</h2>
+<p>This guide covers the basics of integrating Razorpay with Flutter for various payment types. By following these steps, you can easily implement a seamless payment system in your Flutter application.</p>
+
+</body>
+</html>
